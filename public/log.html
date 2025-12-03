@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trail Bliss - Login</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="log.css">
+</head>
+
+<body>
+
+    <div id="backgroundImageWrapper"></div>
+
+    <div class="darkOverlayLayer"></div>
+
+    <div class="mainContentContainer">
+
+        <div class="headerSection">
+            <h1 class="mainTitle">Trail Bliss</h1>
+            <p class="subTitle">Discover the Heart of India</p>
+        </div>
+
+        <div class="loginCardBox">
+
+            <div class="tabNavigationContainer">
+                <button id="touristOptionButton" class="selectionButton activeButton"
+                    onclick="handleTabSwitch('tourist')">
+                    <i class="fa-solid fa-suitcase-rolling"></i> Tourist
+                </button>
+                <button id="guideOptionButton" class="selectionButton" onclick="handleTabSwitch('guide')">
+                    <i class="fa-solid fa-id-card"></i> Guide
+                </button>
+            </div>
+
+            <div class="formContainerArea">
+
+                <form id="touristLoginSection" class="loginForm">
+                    <div class="formHeader">
+                        <h2 class="formTitle">Welcome, Traveler!</h2>
+                        <p class="formSubtitle">Plan your next heritage journey.</p>
+                    </div>
+
+                    <div class="inputFieldWrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" placeholder="Email Address" class="textInput" required>
+                    </div>
+
+                    <div class="inputFieldWrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" class="textInput" required>
+                    </div>
+
+                    <div class="formOptionsRow">
+                        <label class="checkboxLabel">
+                            <input type="checkbox" class="checkboxInput"> Remember me
+                        </label>
+                        <a href="#" class="forgotPasswordLink">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="submitButton touristButtonColor">
+                        Login as Tourist
+                    </button>
+                </form>
+
+                <form id="guideLoginSection" class="loginForm hiddenForm">
+                    <div class="formHeader">
+                        <h2 class="formTitle">Guide Portal</h2>
+                        <p class="formSubtitle">Connect with travelers.</p>
+                    </div>
+
+                    <div class="inputFieldWrapper">
+                        <i class="fa-solid fa-id-badge"></i>
+                        <input type="text" placeholder="Email Address" class="textInput" required>
+                    </div>
+
+                    <div class="inputFieldWrapper">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" placeholder="Password" class="textInput" required>
+                    </div>
+
+                    <div class="formOptionsRow">
+                        <label class="checkboxLabel">
+                            <input type="checkbox" class="checkboxInput"> Remember me
+                        </label>
+                        <a href="#" class="forgotPasswordLink">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="submitButton guideButtonColor">
+                        Login as Guide
+                    </button>
+                </form>
+
+            </div>
+
+            <div class="footerSection">
+                <p class="footerText">New to Trail Bliss? <a href="signup.html" class="createAccountLink">Create
+                        Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="log.js"></script>
+
+</body>
+
+</html>

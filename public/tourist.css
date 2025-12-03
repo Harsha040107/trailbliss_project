@@ -1,0 +1,386 @@
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    :root {
+        --primary-gold: #D4AF37;
+        --deep-maroon: #4a0e0e;
+        --soft-cream: #fdfbf7;
+        --text-dark: #333;
+        --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background-color: var(--soft-cream);
+        color: var(--text-dark);
+        padding-top: 80px; 
+   }
+
+    h1,
+    h2,
+    h3 {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .navbar {
+        background-color: indigo;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+    
+        /* NEW: This makes it fixed to the top */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+   }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px; 
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: #ff9800; 
+        }
+
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+    @media (max-width: 768px) {
+            
+       
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none; 
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+                padding-top: 1rem;
+            }
+
+            .nav-links li {
+                padding: 1rem 0;
+                border-bottom: 1px solid #444;
+            }
+
+         
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
+    .brand-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--deep-maroon);
+        font-family: 'Playfair Display', serif;
+    }
+
+    
+
+    .logout-button {
+        padding: 0.5rem 1.5rem;
+        border: 2px solid var(--deep-maroon);
+        background: transparent;
+        color: var(--deep-maroon);
+        border-radius: 25px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .logout-button:hover {
+        background: var(--deep-maroon);
+        color: #fff;
+    }
+
+    .hero-banner-section {
+        height: 60vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1920&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        max-width: 600px;
+    }
+
+    .filter-container-section {
+        padding: 2rem 5%;
+        background-color: #fff;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .filter-title {
+        margin-bottom: 1.5rem;
+        color: var(--deep-maroon);
+    }
+
+    .filter-buttons-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .category-filter-button {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        background-color: #eee;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .category-filter-button:hover,
+    .category-filter-button.active-filter {
+        background-color: var(--primary-gold);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .main-content-wrapper {
+        padding: 3rem 5%;
+    }
+
+    .state-section-container {
+        margin-bottom: 4rem;
+    }
+
+    .state-header {
+        border-left: 5px solid var(--primary-gold);
+        padding-left: 15px;
+        margin-bottom: 2rem;
+    }
+
+    .state-name-title {
+        font-size: 2rem;
+        color: var(--deep-maroon);
+    }
+
+    .tourist-places-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .place-info-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+    .place-info-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .place-image-holder {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .place-details-box {
+        padding: 1.5rem;
+    }
+
+    .place-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: #222;
+    }
+
+    .place-category-tag {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--primary-gold);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .place-description {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .card-footer-row {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .explore-btn {
+        color: var(--deep-maroon);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .feedback-section-area {
+        background-color: indigo;
+        color: white;
+        padding: 4rem 5%;
+        text-align: center;
+        border-radius: 20px 20px 0 0;
+        margin-top: 2rem;
+    }
+
+    .feedback-form-box {
+        max-width: 600px;
+        margin: 2rem auto 0;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 10px;
+        backdrop-filter: blur(5px);
+    }
+
+    .feedback-input {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .feedback-submit-btn {
+        background-color: var(--primary-gold);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .feedback-submit-btn:hover {
+        background-color: #bfa143;
+    }
+
+    .page-footer {
+        background-color: indigo;
+        color: #aaa;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+.places-wrapper {
+    width: 100%;
+    padding: 10px;
+}
+
+
+.tourist-places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+/* Fix for routing container */
+.leaflet-routing-container {
+    background-color: white;
+    padding: 10px;
+    max-height: 200px; /* Limits height so it doesn't cover the whole map */
+    overflow-y: auto;  /* Adds scrollbar for long directions */
+    font-size: 12px;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+
+#map {
+    height: 300px;
+    width: 100%;
+    z-index: 1; /* Ensures map content stays handled correctly */
+}
+
+/* Fix for the direction box overlap */
+.leaflet-routing-container {
+    background: white;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 12px;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.leaflet-routing-container {
+    z-index: 9999 !important; /* Forces it on top */
+    background-color: white;
+    padding: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 280px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}

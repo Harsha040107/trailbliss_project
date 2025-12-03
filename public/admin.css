@@ -1,0 +1,49 @@
+body { 
+            padding: 2rem; 
+            background: #fdfbf7; 
+        }
+
+        .admin-container {
+             max-width: 800px;
+             margin: 0 auto;
+        }
+
+        .form-box { 
+            background: white;
+             padding: 2rem; 
+             border-radius: 10px; 
+             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        input, select, textarea { 
+            width: 100%;
+            padding: 10px; 
+            margin-bottom: 1rem; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+        }
+
+        button { 
+            background: #D4AF37; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            cursor: pointer; 
+            border-radius: 5px; 
+        }
+
+        button.delete-btn { 
+            background: #ff4444; 
+            margin-left: 10px; 
+        }
+
+        .spot-list-item { 
+            background: white; 
+            padding: 1rem; 
+            margin-top: 1rem; 
+            border-radius: 5px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }

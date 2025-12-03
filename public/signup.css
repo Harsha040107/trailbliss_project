@@ -1,0 +1,158 @@
+ 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Removed static background-image */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Prevent scrollbars during transitions */
+            background-color: #000;
+        }
+
+        /* --- BACKGROUND SLIDESHOW STYLES --- */
+        #backgroundImageWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind everything */
+        }
+
+        .backgroundSlide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Smooth fade effect */
+        }
+
+        .visibleSlide {
+            opacity: 1;
+        }
+
+        /* The dark layer over the image so text pops */
+        .dark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1; /* On top of background, below form */
+        }
+
+        /* The white box in the center */
+        .signup-box-container {
+            position: relative;
+            z-index: 2; /* Sit on top of overlay */
+            background-color: white;
+            padding: 40px;
+            width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .main-title {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .sub-title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Buttons to switch between Tourist and Guide */
+        .role-selector-buttons {
+            display: flex;
+            background-color: #f0f0f0;
+            border-radius: 30px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .role-btn {
+            flex: 1;
+            border: none;
+            padding: 12px;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* Style for the button when it is selected */
+        .role-btn.active-role {
+            background-color: #e67e22; /* Orange color */
+            color: white;
+        }
+
+        /* Form styling */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .text-input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .text-input-field:focus {
+            border-color: #e67e22;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #d35400;
+        }
+
+        .login-link-text {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-link-text a {
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: bold;
+        }

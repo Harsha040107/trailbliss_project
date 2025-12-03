@@ -1,0 +1,268 @@
+   body {
+       margin: 0;
+       padding: 0;
+       font-family: 'Poppins', sans-serif;
+       overflow: hidden;
+       height: 100vh;
+       width: 100vw;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+   }
+
+   h1,
+   h2 {
+       font-family: 'Playfair Display', serif;
+   }
+
+   #backgroundImageWrapper {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       z-index: -1;
+   }
+
+   .backgroundSlide {
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background-size: cover;
+       background-position: center;
+       opacity: 0;
+       transition: opacity 1.5s ease-in-out;
+   }
+
+   .backgroundSlide.visibleSlide {
+       opacity: 1;
+   }
+
+   .darkOverlayLayer {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background: rgba(0, 0, 0, 0.4);
+       z-index: 0;
+   }
+
+   .mainContentContainer {
+       position: relative;
+       z-index: 10;
+       width: 100%;
+       max-width: 450px;
+       padding: 0 1rem;
+   }
+
+   .headerSection {
+       text-align: center;
+       margin-bottom: 1.5rem;
+   }
+
+   .mainTitle {
+       font-size: 3rem;
+       color: white;
+       font-weight: bold;
+       text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+       margin-bottom: 0.5rem;
+       margin-top: 0;
+   }
+
+   .subTitle {
+       color: #e5e7eb;
+       font-size: 1.125rem;
+       margin: 0;
+   }
+
+   .loginCardBox {
+       backdrop-filter: blur(10px);
+       background-color: rgba(255, 255, 255, 0.9);
+       border-radius: 1rem;
+       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+       overflow: hidden;
+   }
+
+   .tabNavigationContainer {
+       display: flex;
+       border-bottom: 1px solid #e5e7eb;
+   }
+
+   .selectionButton {
+       width: 50%;
+       padding: 1rem;
+       font-weight: 600;
+       color: #4b5563;
+       background: none;
+       border: none;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       font-size: 1rem;
+   }
+
+   .selectionButton:hover {
+       color: #d97706;
+   }
+
+   .selectionButton.activeButton {
+       background-color: #d97706;
+       color: white;
+   }
+
+   .formContainerArea {
+       padding: 2rem;
+   }
+
+   .formHeader {
+       text-align: center;
+       margin-bottom: 0.5rem;
+   }
+
+   .formTitle {
+       font-size: 1.5rem;
+       font-weight: bold;
+       color: #1f2937;
+       margin: 0;
+   }
+
+   .formSubtitle {
+       font-size: 0.875rem;
+       color: #6b7280;
+       margin: 0;
+   }
+
+   .loginForm {
+       display: flex;
+       flex-direction: column;
+       gap: 1rem;
+       animation: fadeIn Animation 0.5s ease-in-out;
+   }
+
+   .hiddenForm {
+       display: none;
+   }
+
+   .inputFieldWrapper {
+       display: flex;
+       align-items: center;
+       border: 2px solid #e5e7eb;
+       border-radius: 0.5rem;
+       padding: 0.5rem 0.75rem;
+       background-color: white;
+   }
+
+   .inputFieldWrapper:focus-within {
+       border-color: #d97706;
+   }
+
+   .inputFieldWrapper i {
+       color: #9ca3af;
+       margin-right: 0.75rem;
+   }
+
+   .inputFieldWrapper:focus-within i {
+       color: #d97706;
+   }
+
+   .textInput {
+       width: 100%;
+       outline: none;
+       color: #374151;
+       background: transparent;
+       border: none;
+       font-size: 1rem;
+   }
+
+   .formOptionsRow {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       font-size: 0.875rem;
+   }
+
+   .checkboxLabel {
+       display: flex;
+       align-items: center;
+       color: #4b5563;
+       cursor: pointer;
+   }
+
+   .checkboxInput {
+       margin-right: 0.5rem;
+       accent-color: #d97706;
+   }
+
+   .forgotPasswordLink {
+       color: #d97706;
+       text-decoration: none;
+   }
+
+   .forgotPasswordLink:hover {
+       text-decoration: underline;
+   }
+
+   .submitButton {
+       color: white;
+       font-weight: bold;
+       padding: 0.75rem;
+       border-radius: 0.5rem;
+       border: none;
+       cursor: pointer;
+       transition: background-color 0.3s;
+       font-size: 1rem;
+       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+   }
+
+   .touristButtonColor {
+       background-color: #d97706;
+   }
+
+   .touristButtonColor:hover {
+       background-color: #b45309;
+   }
+
+   .guideButtonColor {
+       background-color: #0f766e;
+   }
+
+   .guideButtonColor:hover {
+       background-color: #115e59;
+   }
+
+   .footerSection {
+       background-color: #f9fafb;
+       padding: 1rem 2rem;
+       text-align: center;
+       border-top: 1px solid #e5e7eb;
+   }
+
+   .footerText {
+       color: #6b7280;
+       font-size: 0.875rem;
+       margin: 0;
+   }
+
+   .createAccountLink {
+       color: #d97706;
+       font-weight: bold;
+       text-decoration: none;
+   }
+
+   .createAccountLink:hover {
+       text-decoration: underline;
+   }
+
+   @keyframes fadeInAnimation {
+       from {
+           opacity: 0;
+           transform: translateY(10px);
+       }
+
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }

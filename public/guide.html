@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trail Bliss - Guide Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="guide.css">
+</head>
+
+<body>
+
+    <div class="fullScreenBackgroundImage"></div>
+    <div class="darkOverlayLayer"></div>
+
+    <nav class="topNavigationBar">
+        <div class="brandLogoTitle">Trail Bliss</div>
+        <a href="log.html" class="logoutButton">Logout</a>
+    </nav>
+
+    <div class="mainDashboardLayout">
+        <aside class="sidebarNavigation">
+            <div class="userProfileSection">
+                <img id="sidebarProfileImage" src="https://via.placeholder.com/100" alt="Guide Profile Picture"
+                    class="userProfileImage">
+                <h2 id="sidebarName">Guide Name</h2>
+                <span style="color: var(--primaryGoldColor)">Certified Guide</span>
+            </div>
+
+            <div class="navigationMenuItem activeItem" onclick="switchView('dashboard', this)">
+                <i class="fa-solid fa-chart-line"></i> Dashboard
+            </div>
+            <div class="navigationMenuItem" onclick="switchView('schedule', this)">
+                <i class="fa-regular fa-calendar-check"></i> Schedule
+            </div>
+            <div class="navigationMenuItem" onclick="switchView('tours', this)">
+                <i class="fa-solid fa-pen-to-square"></i> Manage Tours
+            </div>
+            <div class="navigationMenuItem" onclick="switchView('feedback', this)">
+                <i class="fa-regular fa-comment-dots"></i> Feedback
+            </div>
+        </aside>
+
+        <main class="mainContentArea">
+
+            <div id="view-dashboard" class="view-section">
+                <div id="profileSection" class="contentDisplayCard">
+                    <h3 class="sectionHeaderTitle">Guide Profile Settings</h3>
+                    <form id="guideProfileForm" enctype="multipart/form-data"
+                        style="display: flex; flex-direction: column; gap: 1rem;">
+
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <img id="previewImage" src="https://via.placeholder.com/100"
+                                style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primaryGoldColor);">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px;">Change Photo</label>
+                                <input type="file" id="pPhoto" name="profileImage" accept="image/*"
+                                    class="inputTextField">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <input type="text" id="pName" name="name" class="inputTextField" placeholder="Full Name"
+                                required>
+                            <input type="text" id="pPhone" name="phone" class="inputTextField"
+                                placeholder="Phone Number" required>
+                        </div>
+
+                        <input type="text" id="pAddress" name="address" class="inputTextField"
+                            placeholder="Full Address" required>
+                        <textarea id="pBio" name="bio" class="inputTextField" rows="3"
+                            placeholder="Bio / Introduction"></textarea>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <input type="text" id="pLang" name="languages" class="inputTextField"
+                                placeholder="Languages">
+                            <input type="text" id="pExp" name="experience" class="inputTextField"
+                                placeholder="Years of Experience">
+                        </div>
+
+                        <button type="submit" class="actionButton updateButton">Save Profile Changes</button>
+                    </form>
+                </div>
+
+                <div class="contentDisplayCard" style="margin-top: 20px;">
+                    <h3 class="sectionHeaderTitle">Overview</h3>
+                    <div style="height: 200px;">
+                        <canvas id="performanceChartCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-schedule" class="view-section" style="display:none;">
+                <div class="contentDisplayCard">
+                    <h3 class="sectionHeaderTitle">My Schedule & Requests</h3>
+                    <div id="scheduleListContainer">
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-tours" class="view-section" style="display:none;">
+                <div class="contentDisplayCard">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h3 class="sectionHeaderTitle" style="margin:0;">My Active Tours</h3>
+                        <button class="actionButton updateButton" style="width:auto; padding:0.5rem 1rem;"
+                            onclick="alert('Feature coming soon!')">+ Add New Tour</button>
+                    </div>
+
+                    <div class="heritageSiteGrid">
+                        <div class="heritageSiteCard">
+                            <img src="https://images.unsplash.com/photo-1598324789736-4861f89564a0?q=80&w=300"
+                                class="heritageSiteImage">
+                            <div class="heritageSiteBody">
+                                <h4>City Heritage Walk</h4>
+                                <p style="font-size:0.8rem; color:#ccc;">Duration: 2 Hours</p>
+                                <div class="cardActionButtons">
+                                    <button class="actionButton editButton">Edit</button>
+                                    <button class="actionButton" style="background:red; color:white;">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-feedback" class="view-section" style="display:none;">
+                <div class="contentDisplayCard">
+                    <h3 class="sectionHeaderTitle">Tourist Reviews</h3>
+
+                    <div id="feedbackListContainer">
+                        <p style="color:#aaa;">Loading reviews...</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    </div>
+
+    <div id="eventModalPopup" class="popupModalOverlay">
+        <div class="modalContentBox">
+            <h3 class="sectionHeaderTitle" style="border:none; margin-bottom: 1rem;">Add New Event</h3>
+            <input type="text" class="inputTextField" placeholder="Event Title">
+            <input type="text" class="inputTextField" placeholder="Location">
+            <input type="date" class="inputTextField">
+            <button class="logoutButton" style="width:100%; background-color:var(--primaryGoldColor); color:black"
+                onclick="document.getElementById('eventModalPopup').style.display='none'">Save Event</button>
+            <button class="logoutButton" style="width:100%; margin-top:0.5rem; border:none"
+                onclick="document.getElementById('eventModalPopup').style.display='none'">Cancel</button>
+        </div>
+    </div>
+
+    <script src="guide.js"></script>
+</body>
+
+</html>

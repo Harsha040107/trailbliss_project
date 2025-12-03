@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trail Bliss - Tourist Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="tourist.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="tourist.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <style>
+        /* Add this to tourist.css or style tag */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .modal-left {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .modal-right {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .close-modal {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Trail Bliss</div>
+
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#" onclick="openMyBookings()">My Bookings</a></li>
+            <li><a href="#feedback">Contact Us</a></li>
+            <li><a href="#" onclick="logoutUser()">logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero-banner-section" id="home">
+        <h1 class="hero-title">Explore the Timeless Beauty</h1>
+        <p class="hero-subtitle">From the snowy peaks of the North to the coastal temples of the South, discover the
+            soul of India.</p>
+    </section>
+
+    <div class="filter-container-section">
+        <h2 class="filter-title">What are you looking for today?</h2>
+        <div class="filter-buttons-wrapper">
+            <button class="category-filter-button active-filter" onclick="filterSelection('all')">All</button>
+            <button class="category-filter-button" onclick="filterSelection('temple')"><i
+                    class="fa-solid fa-gopuram"></i> Temples</button>
+            <button class="category-filter-button" onclick="filterSelection('historical')">
+                <i class="fa-solid fa-landmark"></i> Historical
+            </button>
+            <button class="category-filter-button" onclick="filterSelection('fun')"><i class="fa-solid fa-ticket"></i>
+                Fun Places</button>
+            <button class="category-filter-button" onclick="filterSelection('event')"><i
+                    class="fa-solid fa-calendar-days"></i> Events</button>
+            <button class="category-filter-button" onclick="filterSelection('restaurant')"><i
+                    class="fa-solid fa-utensils"></i> Restaurants</button>
+            <button class="category-filter-button" onclick="filterSelection('mall')"><i
+                    class="fa-solid fa-bag-shopping"></i> Malls</button>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper" id="content">
+
+        <div class="main-content-wrapper">
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Jammu and Kashmir</h3>
+                    <p>Paradise on Earth.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="jammu-and-kashmir-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Ladakh</h3>
+                    <p>The Land of High Passes.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="ladakh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Himachal Pradesh</h3>
+                    <p>Unforgettable Himachal.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="himachal-pradesh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Punjab</h3>
+                    <p>India Begins Here.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="punjab-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Uttarakhand</h3>
+                    <p>Simply Heaven.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="uttarakhand-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Haryana</h3>
+                    <p>The Cradle of Indian Culture.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="haryana-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Delhi</h3>
+                    <p>The Heart of India.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="delhi-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Uttar Pradesh</h3>
+                    <p>The Land of Taj.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="uttar-pradesh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Chandigarh</h3>
+                    <p>The City Beautiful.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="chandigarh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Rajasthan</h3>
+                    <p>The Land of Kings.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="rajasthan-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Gujarat</h3>
+                    <p>Vibrant Gujarat.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="gujarat-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Maharashtra</h3>
+                    <p>Unlimited Maharashtra.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="maharashtra-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Goa</h3>
+                    <p>A Perfect Holiday Destination.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="goa-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Dadra and Nagar Haveli and Daman and Diu</h3>
+                    <p>Portuguese Heritage & Nature.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="dadra-and-nagar-haveli-and-daman-and-diu-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Madhya Pradesh</h3>
+                    <p>The Heart of Incredible India.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="madhya-pradesh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Chhattisgarh</h3>
+                    <p>Full of Surprises.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="chhattisgarh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">West Bengal</h3>
+                    <p>Beautiful Bengal.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="west-bengal-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Odisha</h3>
+                    <p>India's Best Kept Secret.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="odisha-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Bihar</h3>
+                    <p>Blissful Bihar.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="bihar-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Jharkhand</h3>
+                    <p>Nature's Hidden Jewel.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="jharkhand-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Sikkim</h3>
+                    <p>Small but Beautiful.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="sikkim-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Assam</h3>
+                    <p>The Awesome Assam.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="assam-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Arunachal Pradesh</h3>
+                    <p>The Land of Dawn-lit Mountains.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="arunachal-pradesh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Meghalaya</h3>
+                    <p>Abode of Clouds.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="meghalaya-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Nagaland</h3>
+                    <p>Land of Festivals.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="nagaland-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Manipur</h3>
+                    <p>Jewel of India.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="manipur-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Mizoram</h3>
+                    <p>Mystical Mizoram.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="mizoram-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Tripura</h3>
+                    <p>The Princely State.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="tripura-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Tamil Nadu</h3>
+                    <p>Enchanting Tamil Nadu.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="tamil-nadu-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Kerala</h3>
+                    <p>God's Own Country.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="kerala-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Karnataka</h3>
+                    <p>One State, Many Worlds.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="karnataka-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Andhra Pradesh</h3>
+                    <p>The Essence of Incredible India.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="andhra-pradesh-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Telangana</h3>
+                    <p>Visits That Mesmerize.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="telangana-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Puducherry</h3>
+                    <p>Give Time a Break.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="puducherry-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Andaman and Nicobar Islands</h3>
+                    <p>Emerald, Blue and You.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="andaman-and-nicobar-islands-grid"></div>
+                </div>
+            </div>
+
+            <div class="state-section-container">
+                <div class="state-header">
+                    <h3 class="state-name-title">Lakshadweep</h3>
+                    <p>99% Fun, 1% Land.</p>
+                </div>
+                <div class="places-wrapper">
+                    <div class="tourist-places-grid" id="lakshadweep-grid"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <section class="feedback-section-area" id="feedback">
+        <h2>Thank You for Choosing Trail Bliss</h2>
+        <p>We hope you find your perfect destination. Your feedback helps us improve.</p>
+
+        <div class="feedback-form-box">
+            <form id="userFeedbackForm">
+                <input type="text" id="feedbackName" class="feedback-input" placeholder="Your Name" required>
+
+                <input type="email" id="feedbackEmail" class="feedback-input" placeholder="Your Email" required>
+
+                <textarea id="feedbackMessage" class="feedback-input" rows="4"
+                    placeholder="Tell us about your experience or suggest a new place..." required></textarea>
+
+                <button type="submit" class="feedback-submit-btn">Send Feedback</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        <p>&copy; 2025 Trail Bliss. Discovering India, One Step at a Time.</p>
+    </footer>
+
+    <div id="detailsModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+
+            <div class="modal-left">
+                <h2 id="modalTitle" style="color: indigo;">Spot Name</h2>
+                <p id="modalDesc" style="color: #555; margin-bottom: 15px;">Description...</p>
+
+                <div
+                    style="background: #eee; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: flex; gap: 10px;">
+                    <button onclick="toggleGuideMode('online')" id="btnOnline"
+                        style="flex:1; padding: 8px; border:none; border-radius:5px; cursor:pointer;">Online Guide
+                        (Map)</button>
+                    <button onclick="toggleGuideMode('offline')" id="btnOffline"
+                        style="flex:1; padding: 8px; border:none; border-radius:5px; cursor:pointer;">Offline Guide
+                        (Person)</button>
+                </div>
+
+                <div id="mapContainer" style="display:none;">
+                    <div id="map"></div>
+                    <a id="googleMapsLink" href="#" target="_blank"
+                        style="display: block; text-align: center; margin-top: 10px; padding: 10px; background: #4285F4; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                        Open in Google Maps
+                    </a>
+                    <p style="font-size: 0.8rem; color: #666; margin-top:5px;">* Showing route to destination.</p>
+                </div>
+            </div>
+
+            <div class="modal-right" id="offlineBookingForm" style="display:none;">
+                <h3 style="color: indigo;">Book a Local Guide</h3>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:10px;">Select a certified guide to accompany you.
+                </p>
+
+                <form id="bookingForm">
+                    <input type="hidden" id="bookSpotName">
+
+                    <label>Date of Visit:</label>
+                    <input type="date" id="bookDate" class="feedback-input" required>
+
+                    <label>Select Guide:</label>
+                    <select id="guideSelect" class="feedback-input" required onchange="showGuidePreview(this)">
+                        <option value="">-- Loading Guides --</option>
+                    </select>
+
+                    <div id="guidePreviewBox"
+                        style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom:10px; display:none; border:1px solid #ddd;">
+                        <strong>Guide:</strong> <span id="previewName"></span><br>
+                        <strong>Phone:</strong> <span id="previewPhone">Book to reveal</span><br>
+                        <strong>Exp:</strong> <span id="previewExp"></span>
+                    </div>
+
+                    <label>Your Email:</label>
+                    <input type="email" id="bookUserEmail" class="feedback-input" required>
+
+                    <label>Your Phone:</label>
+                    <input type="tel" id="bookUserPhone" class="feedback-input" required>
+
+                    <button type="submit" class="feedback-submit-btn" style="margin-top:10px; width:100%;">Confirm
+                        Booking Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="bookingsModal" class="modal-overlay">
+        <div class="modal-content" style="flex-direction: column; max-width: 600px;">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; width:100%; border-bottom:1px solid #ddd; padding-bottom:10px;">
+                <h2 style="color: indigo;">My Booking Requests</h2>
+                <span class="close-modal"
+                    onclick="document.getElementById('bookingsModal').style.display='none'">&times;</span>
+            </div>
+
+            <div id="myBookingsList" style="width:100%; max-height:400px; overflow-y:auto; margin-top:15px;">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="completionModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px; flex-direction: column; text-align: center;">
+            <span class="close-modal"
+                onclick="document.getElementById('completionModal').style.display='none'">&times;</span>
+
+            <h2 style="color: indigo; margin-bottom: 10px;">Trip Completed?</h2>
+            <p style="color: #666; margin-bottom: 20px;">Please rate your experience with the guide.</p>
+
+            <form id="tripFeedbackForm">
+                <input type="hidden" id="completeBookingId">
+
+                <label style="font-weight:bold;">Rate Guide (1-5):</label>
+                <div style="margin: 10px 0; font-size: 1.5rem; color: #D4AF37;">
+                    <select id="tripRating" class="feedback-input" style="text-align:center;">
+                        <option value="5">★★★★★ (Excellent)</option>
+                        <option value="4">★★★★☆ (Good)</option>
+                        <option value="3">★★★☆☆ (Average)</option>
+                        <option value="2">★★☆☆☆ (Poor)</option>
+                        <option value="1">★☆☆☆☆ (Terrible)</option>
+                    </select>
+                </div>
+
+                <textarea id="tripReview" class="feedback-input" rows="3" placeholder="Write a short review..."
+                    required></textarea>
+
+                <button type="submit" class="feedback-submit-btn" style="background-color: #27ae60;">Submit
+                    Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="tourist.js"> </script>
+
+</body>
+
+</html>
