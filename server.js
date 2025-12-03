@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // --- MONGODB CONNECTION ---
+// Uses the variable you set in Render Dashboard
 mongoose.connect(process.env.MONGO_URI) 
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch((err) => console.log("❌ MongoDB Connection Error:", err));
@@ -119,8 +120,8 @@ const upload = multer({
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER, // Set this in Render Environment Variables
-        pass: process.env.EMAIL_PASS  // Set this in Render Environment Variables
+        user: process.env.EMAIL_USER, // Reads from Render Environment Variables
+        pass: process.env.EMAIL_PASS  // Reads from Render Environment Variables
     }
 });
 
