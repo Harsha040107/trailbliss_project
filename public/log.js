@@ -60,7 +60,7 @@ async function handleLogin(event, role) {
     const password = form.querySelector('input[type="password"]').value;
 
     try {
-        const response = await fetch('https://trailbliss-project.onrender.com/api/login', {
+        const response = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, role })
