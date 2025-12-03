@@ -3,7 +3,7 @@
 // ==========================================
 
 // --- GLOBAL VARIABLES ---
-const API_URL = 'https://trailbliss-project.onrender.com/api/spots';
+const API_URL = '/api/spots';
 let map = null; // Leaflet map instance
 let routingControl = null; // Routing instance
 let currentSpotLat = 0;
