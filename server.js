@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
-// REMOVED: const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 const app = express();
 // RENDER REQUIREMENT: Use process.env.PORT, default to 3000 for local
@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // --- MONGODB CONNECTION ---
-// Uses the variable you set in Render Dashboard
 mongoose.connect(process.env.MONGO_URI) 
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch((err) => console.log("❌ MongoDB Connection Error:", err));
@@ -77,7 +76,14 @@ const bookingSchema = new mongoose.Schema({
 });
 const Booking = mongoose.model('Booking', bookingSchema);
 
-// REMOVED: OTP Schema
+// --- OTP SCHEMA (Better than in-memory for Render) ---
+const otpSchema = new mongoose.Schema({
+    email: String,
+    code: String,
+    createdAt: { type: Date, default: Date.now, expires: 300 } // Expires in 5 mins
+});
+const OTP = mongoose.model('OTP', otpSchema);
+
 
 // --- MULTER CONFIGURATION ---
 // WARNING: On Render Free Tier, these files will disappear after 15 mins or redeploy.
@@ -108,7 +114,15 @@ const upload = multer({
     }
 });
 
-// REMOVED: Nodemailer Configuration
+
+// --- NODEMAILER CONFIGURATION ---
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER, // Set this in Render Environment Variables
+        pass: process.env.EMAIL_PASS  // Set this in Render Environment Variables
+    }
+});
 
 
 // ================= ROUTES =================
@@ -193,7 +207,43 @@ app.delete('/api/spots/:id', async (req, res) => {
     }
 });
 
-// REMOVED: Verification Routes (send-verification, verify-code)
+// 3. VERIFICATION ROUTES (Fixed for Render)
+app.post('/api/send-verification', async (req, res) => {
+    const { email } = req.body;
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    try {
+        // Save to DB instead of memory (Render restarts often)
+        await OTP.findOneAndDelete({ email }); // Clear old code
+        await new OTP({ email, code: verificationCode }).save();
+
+        const mailOptions = {
+            from: `Trail Bliss <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: 'Verify your Trail Bliss Account',
+            text: `Your verification code is: ${verificationCode}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log(`Email sent to ${email}`);
+        res.json({ success: true, message: "Code sent" });
+    } catch (error) {
+        console.error("Email Error:", error);
+        res.status(400).json({ error: "Could not send email." });
+    }
+});
+
+app.post('/api/verify-code', async (req, res) => {
+    const { email, code } = req.body;
+    const record = await OTP.findOne({ email, code });
+    
+    if (record) {
+        await OTP.deleteOne({ _id: record._id }); // Use once
+        res.json({ success: true });
+    } else {
+        res.status(400).json({ error: "Invalid or Expired Code" });
+    }
+});
 
 // 4. FEEDBACK ROUTES
 app.post('/api/feedback', async (req, res) => {
